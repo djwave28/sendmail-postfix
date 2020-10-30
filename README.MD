@@ -1,51 +1,50 @@
 # Send Mail /w Google SMPT
 
-Linux configuration setup for sendmail with google SMPT
+Linux setup for sendmail with google SMPT.
 
-## Pre-requisites:
-- install postfix and cyrus-sasl-plain
-- Google account
-- application password
-
-
-## Installing postfix (linux fedora)
+### install postfix and cyrus-sasl-plain
 ```
 sudo dnf install postfix cyrus-sasl-plain
 systemctl enable postfix
 systemctl start postfix
 ```
 
+### Create a Google application password
+If you use two-way authentication for your google account, then follow these steps, 
+otherwise just use your current account credentials.
+
 Go to you Google account and choose `Manage your Google Account` and open `Security`. 
 If the two-way verification is off then just use the standard credentials from your google ccount. 
 If the two-way verification is on the create a application password by selecting
  `App passwords`.
 
+
 ### App passwords:
  Under `Select app` choose 'other' and give it a random name and click 'generate'. 
- A password will pop up. Copy this password and use it with the username of your 
- google account.
+ A password will pop up. Copy an save this password.
 
 
-Make sure the `postfix-config.sh` is executable and run teh file.
+Pull the git-repo to your system and run the script.
 
 ```
-git clone 
+git clone https://github.com/djwave28/sendmail-postfix.git
+cd sendmail-postfix
 chmod +x postfix-config.sh
 sh ./postfix-config.sh
 ```
 
 You will be asked to enter your
 - google username
-- password
+- app-password
 
-The script will ask for your sudo password and will also ask to do this again when the postfix.service is restarted. 
-Last it will ask you where you want your test email to be sent.
-
+You will be asked for your sudo password to be able to write to your system files and to restart the `postfix.service`.
 
 <hr>
 
+The script will perfom the following operations
 
-*This will be appended to  /etc/postfix/main.cf*
+
+*appended to  /etc/postfix/main.cf*
 
 ```
 relayhost = [smtp.gmail.com]:587
@@ -57,7 +56,7 @@ smtp_sasl_security_options = noanonymous
 smtp_sasl_tls_security_options = noanonymous
 ```
 
-*This will be written to  /etc/postfix/sasl_passwd*
+*wite credentials to  /etc/postfix/sasl_passwd*
 
 ``` 
 [smtp.gmail.com]:587 username:password
