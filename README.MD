@@ -29,7 +29,7 @@ If the two-way verification is on the create a application password by selecting
 Make sure the `postfix-config.sh` is executable and run teh file.
 
 ```
-git clone 
+git clone https://github.com/djwave28/sendmail-postfix.git
 chmod +x postfix-config.sh
 sh ./postfix-config.sh
 ```
